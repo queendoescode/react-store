@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { useQuery } from '@apollo/client';
 
 import Cart from '../components/Cart';
-import { useStoreContext } from '../utils/GlobalState';
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
@@ -15,19 +15,20 @@ import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 
 function Detail() {
-  const [state, dispatch] = useStoreContext();
+  const productsState = useSelector(state => state.products); // read Redux state
+  const cartState = useSelector(state => state.cart); 
+  const dispatch = useDispatch();
+
   const { id } = useParams();
 
   const [currentProduct, setCurrentProduct] = useState({});
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-  const { products, cart } = state;
-
   useEffect(() => {
     // already in global store
-    if (products.length) {
-      setCurrentProduct(products.find((product) => product._id === id));
+    if (productsState.length) {
+      setCurrentProduct(productsState.find((product) => product._id === id));
     }
     // retrieved from server
     else if (data) {
@@ -49,10 +50,10 @@ function Detail() {
         });
       });
     }
-  }, [products, data, loading, dispatch, id]);
+  }, [productsState, data, loading, dispatch, id]);
 
   const addToCart = () => {
-    const itemInCart = cart.find((cartItem) => cartItem._id === id);
+    const itemInCart = cartState.find((cartItem) => cartItem._id === id);
     if (itemInCart) {
       dispatch({
         type: UPDATE_CART_QUANTITY,
@@ -83,7 +84,7 @@ function Detail() {
 
   return (
     <>
-      {currentProduct && cart ? (
+      {currentProduct && cartState ? (
         <div className="container my-1">
           <Link to="/">← Back to Products</Link>
 
@@ -95,7 +96,7 @@ function Detail() {
             <strong>Price:</strong>${currentProduct.price}{' '}
             <button onClick={addToCart}>Add to Cart</button>
             <button
-              disabled={!cart.find((p) => p._id === currentProduct._id)}
+              disabled={!cartState.find((p) => p._id === currentProduct._id)}
               onClick={removeFromCart}
             >
               Remove from Cart
