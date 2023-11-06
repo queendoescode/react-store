@@ -103,10 +103,12 @@ function Detail() {
             </button>
           </p>
 
-          <img
-            src={`/images/${currentProduct.image}`}
-            alt={currentProduct.name}
-          />
+          { currentProduct.image &&
+            <img
+              src={`/images/${currentProduct.image}`}
+              alt={currentProduct.name}
+            />
+          }
         </div>
       ) : null}
       {loading ? <img src={spinner} alt="loading" /> : null}
