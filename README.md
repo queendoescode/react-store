@@ -8,15 +8,15 @@ will use Redux.
 
 ## Screenshot
 
-![A screenshot of the deployed application](./Screenshot.png)
+![A screenshot of the deployed application](./Screenshot%202023-11-06%20at%209.53.49 PM.png)
 
 ## Links
 
-* [Deployed app]( ) (Heroku)
+* [Deployed app](https://react-store-84341a957ab2.herokuapp.com/) (Heroku)
 
-* [GitHub]( )
+* [GitHub](https://github.com/queendoescode/react-store)
 
 ## Third Party Resources used by this site
 
-* None.
+* Starter code provided by EdX Boot Camps LLC.
 
